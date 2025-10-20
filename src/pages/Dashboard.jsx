@@ -2,19 +2,7 @@
 // Dashboard.jsx – NOVA Dashboard (Frontend Only, Mock Data Version)
 // ----------------------------------------------------------------------------
 // Author: Eknoor Goraya (NOVA Team 9)
-// Purpose:
-//   This file renders the initial dashboard UI for NOVA Attendance,
-//   using mock data only. It matches the official presentation theme and
-//   includes the project logo and color palette for consistent branding.
-//
-// Components:
-//   1. LogTable – mock attendance logs
-//   2. RecentPhoto – placeholder for latest recognition
-//   3. SystemHealth – simulated system metrics
-//   4. CommentTagger – user feedback form
-//
-// Styling: Full-width responsive layout using inline CSS.
-//          Uses teal/navy NOVA color scheme for visual consistency.
+// Purpose: Full-screen responsive NOVA dashboard using mock data.
 // ============================================================================
 
 import { useState } from "react";
@@ -22,14 +10,12 @@ import LogTable from "../components/LogTable";
 import RecentPhoto from "../components/RecentPhoto";
 import SystemHealth from "../components/SystemHealth";
 import CommentTagger from "../components/CommentTagger";
-import novaLogo from "../assets/nova-logo.png"; // NOVA branding logo
+import novaLogo from "../assets/nova-logo.png";
+import denzelPhoto from "../assets/denzelPhoto.png";
 
 export default function Dashboard() {
-  // --------------------------------------------------------------------------
-  //  Mocked dashboard data (until backend integration)
-  // --------------------------------------------------------------------------
   const [logs] = useState([
-    { id: 1, name: "Eknoor", time: "2025-10-09 10:20", status: "Entered" },
+    { id: 1, name: "Denzel Shaka", time: "2025-10-09 10:20", status: "Entered" },
     { id: 2, name: "Manan Dayalani", time: "2025-10-09 10:25", status: "Exited" },
     { id: 3, name: "Rayane Chemsi", time: "2025-10-09 10:32", status: "Entered" },
   ]);
@@ -37,7 +23,7 @@ export default function Dashboard() {
   const [recent] = useState({
     id: 101,
     name: "Denzel Shaka",
-    photoUrl: "https://picsum.photos/240?grayscale",
+    photoUrl: denzelPhoto,
   });
 
   const [system] = useState({
@@ -46,14 +32,11 @@ export default function Dashboard() {
     status: "ON",
   });
 
-  // --------------------------------------------------------------------------
-  //  Layout
-  // --------------------------------------------------------------------------
   return (
     <div
       style={{
         minHeight: "100vh",
-        width: "100vw", // Full viewport width
+        width: "100vw", // use full viewport width
         backgroundColor: "#F7F8FA",
         color: "#002D5B",
         fontFamily: "'Poppins', sans-serif",
@@ -63,9 +46,7 @@ export default function Dashboard() {
         flexDirection: "column",
       }}
     >
-      {/* --------------------------------------------------------------------
-          Header Section with NOVA Logo & Tagline
-         -------------------------------------------------------------------- */}
+      {/* Header */}
       <header
         style={{
           width: "100%",
@@ -75,6 +56,7 @@ export default function Dashboard() {
           padding: "16px 48px",
           borderBottom: "3px solid #1CC5B7",
           boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+          boxSizing: "border-box",
         }}
       >
         <img
@@ -99,21 +81,19 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* --------------------------------------------------------------------
-          Main Content Area – 2 Column Grid Layout
-         -------------------------------------------------------------------- */}
+      {/* Main Content */}
       <main
         style={{
           flexGrow: 1,
           display: "grid",
-          gridTemplateColumns: "2fr 1fr", // wide left, narrow right
+          gridTemplateColumns: "2fr 1fr",
           gap: "24px",
           padding: "32px 64px",
           width: "100%",
           boxSizing: "border-box",
         }}
       >
-        {/* Log Table (Full Width) */}
+        {/* Log Table (Full Width Row) */}
         <div style={{ gridColumn: "1 / span 2" }}>
           <LogTable rows={logs} />
         </div>
@@ -130,7 +110,7 @@ export default function Dashboard() {
           <RecentPhoto name={recent.name} photoUrl={recent.photoUrl} />
         </div>
 
-        {/* Right: System Health & Comment Tagger */}
+        {/* Right: System Health + Comment Tagger */}
         <div
           style={{
             backgroundColor: "#FFFFFF",
@@ -146,18 +126,17 @@ export default function Dashboard() {
         </div>
       </main>
 
-      {/* --------------------------------------------------------------------
-          Footer
-         -------------------------------------------------------------------- */}
+      {/* Footer */}
       <footer
         style={{
           width: "100%",
           backgroundColor: "#002D5B",
-          color: "white",
+          color: "#FFFFFF",
           textAlign: "center",
           padding: "12px 0",
           fontSize: "0.9rem",
           letterSpacing: "0.5px",
+          boxSizing: "border-box",
         }}
       >
         © 2025 NOVA – Smart Attendance and Monitoring System (Group 9)
