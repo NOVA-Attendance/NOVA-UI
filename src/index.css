@@ -1,18 +1,49 @@
+/* ============================================================================
+   index.css – Global Base Styles (Legacy from Vite React Template)
+   ----------------------------------------------------------------------------
+   Author: Eknoor Goraya (NOVA Team 9)
+   Project: NOVA – Smart Attendance and Monitoring System (NOVA-UI)
+   ----------------------------------------------------------------------------
+   Purpose:
+     This file provides the global CSS defaults automatically generated
+     by the Vite + React starter template. It includes root-level variables,
+     link styling, button appearance, and color-scheme definitions.
+
+   Developer Notes:
+     • NOVA-UI uses Material UI for theming (`AppTheme.jsx`), so most of these
+       defaults are now overridden by MUI’s design system.
+     • Retain this file only for baseline resets and non-MUI fallback screens.
+     • For production builds, you can safely keep the :root, body, and media
+       queries for minimal compatibility, and remove the rest if unused.
+
+   Last Updated: October 2025
+   =========================================================================== */
+
+
+/* ----------------------------
+   Root Variables & Typography
+   ---------------------------- */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
+  /* Light/Dark mode support (default dark for Vite) */
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
+  /* Improves font rendering quality */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+/* ----------------------------
+   Link Styling
+   ---------------------------- */
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,6 +53,10 @@ a:hover {
   color: #535bf2;
 }
 
+
+/* ----------------------------
+   Body Layout Defaults
+   ---------------------------- */
 body {
   margin: 0;
   display: flex;
@@ -30,11 +65,19 @@ body {
   min-height: 100vh;
 }
 
+
+/* ----------------------------
+   Heading Styles
+   ---------------------------- */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+
+/* ----------------------------
+   Button Styling (Legacy)
+   ---------------------------- */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -46,6 +89,8 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+/* Hover & Focus effects */
 button:hover {
   border-color: #646cff;
 }
@@ -54,6 +99,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+
+/* ----------------------------
+   Light Theme Overrides
+   ---------------------------- */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
