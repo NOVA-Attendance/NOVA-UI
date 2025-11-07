@@ -1,23 +1,101 @@
 // ============================================================================
-// Dashboard.jsx – NOVA Dashboard (Frontend Only, Mock Data Version)
+// Dashboard.jsx – NOVA Dashboard (Dark Themed, Full-width Analytics Layout)
 // ----------------------------------------------------------------------------
 // Author: Eknoor Goraya (NOVA Team 9)
-// Purpose: Full-screen responsive NOVA dashboard using mock data.
+// Project: NOVA – Smart Attendance and Monitoring System
+// ----------------------------------------------------------------------------
+// Purpose:
+//    Implements the primary dashboard view for NOVA’s Smart Attendance System.
+//    Displays key analytics, system metrics, and student attendance logs in a
+//    responsive dark-mode interface that aligns with the NOVA design language.
+//
+// Description:
+//    • Designed for full-width use with edge-to-edge containers.
+//    • Integrates multiple analytic components (charts, tables, system widgets).
+//    • Uses mock data as placeholders until backend (Firebase / NOVA-Server)
+//      integration is complete.
+//    • Fully responsive for desktops and large laptop screens.
+//
+// Features:
+//    ✓ Three main analytics charts (Line, Pie, Bar) with uniform grid spacing.
+//    ✓ Student attendance overview table with real-time progress visuals.
+//    ✓ Lower section for recent student capture photo + system health monitor.
+//    ✓ Consistent NOVA branding with header, footer, and dark gradient theme.
+// ----------------------------------------------------------------------------
+// Layout Summary:
+//    Header     → NOVA branding and app subtitle
+//    Top Row    → 3 Charts (Lecture Attendance, Overall Attendance, Avg Time)
+//    Mid Row    → Student Attendance Overview Table
+//    Bottom Row → Recent Photo Capture + System Health with Comment Tagger
+//    Footer     → Project acknowledgment (Group 9)
+//
+// Dependencies:
+//    • Material UI (MUI v5) for layout and theming
+//    • Recharts for analytics visualizations
+//    • NOVA custom components (SystemHealth, LogTable, CommentTagger, etc.)
+// ----------------------------------------------------------------------------
+// Notes for Developers:
+//    - Replace mock data with live backend data in production.
+//    - Maintain “md={3.9}” grid for perfect horizontal alignment at 100% zoom.
+//    - Use <GlobalStyles> for theme overrides (avoid inline colors).
+// ----------------------------------------------------------------------------
+// Last Updated: October 2025
 // ============================================================================
 
 import { useState } from "react";
+import {
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  Box,
+  AppBar,
+  Toolbar,
+  Avatar,
+  LinearProgress,
+  GlobalStyles,
+} from "@mui/material";
+
+// ---------------- Component Imports ----------------
 import LogTable from "../components/LogTable";
 import RecentPhoto from "../components/RecentPhoto";
 import SystemHealth from "../components/SystemHealth";
 import CommentTagger from "../components/CommentTagger";
+import AttendanceLineChart from "../components/AttendanceLineChart";
+import AvgTimeBarChart from "../components/AvgTimeBarChart";
+import AttendancePieChart from "../components/AttendancePieChart";
+
+// ---------------- Asset Imports ----------------
 import novaLogo from "../assets/nova-logo.png";
 import denzelPhoto from "../assets/denzelPhoto.png";
 
 export default function Dashboard() {
+  // ---------------- Mock Data (Temporary Backend Placeholder) ----------------
   const [logs] = useState([
-    { id: 1, name: "Denzel Shaka", time: "2025-10-09 10:20", status: "Entered" },
-    { id: 2, name: "Manan Dayalani", time: "2025-10-09 10:25", status: "Exited" },
-    { id: 3, name: "Rayane Chemsi", time: "2025-10-09 10:32", status: "Entered" },
+    {
+      id: 1,
+      name: "Denzel Shaka",
+      studentNumber: "300187524",
+      status: "In Class",
+      totalAttendance: "12 / 15",
+      avgTime: 82,
+    },
+    {
+      id: 2,
+      name: "Manan Dayalani",
+      studentNumber: "300205617",
+      status: "Left",
+      totalAttendance: "10 / 15",
+      avgTime: 74,
+    },
+    {
+      id: 3,
+      name: "Rayane Chemsi",
+      studentNumber: "300216948",
+      status: "In Class",
+      totalAttendance: "14 / 15",
+      avgTime: 90,
+    },
   ]);
 
   const [recent] = useState({
@@ -32,115 +110,239 @@ export default function Dashboard() {
     status: "ON",
   });
 
+  const attendanceData = [
+    { lecture: "Lec 1", count: 20 },
+    { lecture: "Lec 2", count: 22 },
+    { lecture: "Lec 3", count: 19 },
+    { lecture: "Lec 4", count: 25 },
+  ];
+
+  const avgTimeData = [
+    { name: "Denzel", avgTime: 78 },
+    { name: "Manan", avgTime: 65 },
+    { name: "Rayane", avgTime: 83 },
+  ];
+
+  // ========================================================================
+  // LAYOUT + STRUCTURE
+  // ========================================================================
   return (
-    <div
-      style={{
+    <Box
+      sx={{
+        flexGrow: 1,
         minHeight: "100vh",
-        width: "100vw", // use full viewport width
-        backgroundColor: "#F7F8FA",
-        color: "#002D5B",
-        fontFamily: "'Poppins', sans-serif",
-        margin: 0,
-        padding: 0,
-        display: "flex",
-        flexDirection: "column",
+        bgcolor: "background.default",
+        color: "text.primary",
       }}
     >
-      {/* Header */}
-      <header
-        style={{
-          width: "100%",
-          backgroundColor: "#FFFFFF",
-          display: "flex",
-          alignItems: "center",
-          padding: "16px 48px",
-          borderBottom: "3px solid #1CC5B7",
-          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-          boxSizing: "border-box",
+      {/* ---------------- Global Styles ---------------- */}
+      <GlobalStyles
+        styles={{
+          ".MuiContainer-root": {
+            paddingLeft: "0 !important",
+            paddingRight: "0 !important",
+          },
+          ".MuiPaper-root": {
+            backgroundColor: "#0f172a !important",
+            borderRadius: "12px !important",
+          },
+        }}
+      />
+
+      {/* ---------------- HEADER BAR ---------------- */}
+      <AppBar
+        position="static"
+        color="default"
+        sx={{
+          bgcolor: "background.paper",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
         }}
       >
-        <img
-          src={novaLogo}
-          alt="NOVA Logo"
-          style={{ width: 70, height: 70, marginRight: 16 }}
-        />
-        <div>
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "2rem",
-              fontWeight: 700,
-              color: "#002D5B",
-            }}
-          >
-            NOVA Dashboard
-          </h1>
-          <p style={{ margin: 0, color: "#1CC5B7", fontWeight: 500 }}>
-            Next-gen Online Verification for Attendance
-          </p>
-        </div>
-      </header>
+        <Toolbar>
+          <Avatar src={novaLogo} sx={{ width: 56, height: 56, mr: 2 }} />
+          <Box>
+            <Typography variant="h5" fontWeight={700}>
+              NOVA Dashboard
+            </Typography>
+            <Typography variant="body2" color="primary.main">
+              Next-gen Online Verification for Attendance
+            </Typography>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-      {/* Main Content */}
-      <main
-        style={{
-          flexGrow: 1,
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr",
-          gap: "24px",
-          padding: "32px 64px",
-          width: "100%",
-          boxSizing: "border-box",
-        }}
-      >
-        {/* Log Table (Full Width Row) */}
-        <div style={{ gridColumn: "1 / span 2" }}>
-          <LogTable rows={logs} />
-        </div>
+      {/* ---------------- MAIN CONTENT ---------------- */}
+      <Container maxWidth={false} disableGutters>
+        <Box sx={{ px: { xs: 2, sm: 3 }, py: 4 }}>
+          {/* ========================================================================
+              TOP ROW – 3 CHARTS (Even spacing at 100% zoom)
+              ======================================================================== */}
+          <Grid container spacing={3} justifyContent="space-between">
+            {/* Chart 1 – Attendance per Lecture */}
+            <Grid item xs={12} md={3.9}>
+              <Paper sx={{ p: 3, height: 600 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Attendance per Lecture
+                </Typography>
+                <Box
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <AttendanceLineChart data={attendanceData} />
+                </Box>
+              </Paper>
+            </Grid>
 
-        {/* Left: Most Recent Photo */}
-        <div
-          style={{
-            backgroundColor: "#FFFFFF",
-            borderRadius: "12px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-            padding: "16px",
-          }}
-        >
-          <RecentPhoto name={recent.name} photoUrl={recent.photoUrl} />
-        </div>
+            {/* Chart 2 – Lecture Attendance (Pie) */}
+            <Grid item xs={12} md={3.9}>
+              <Paper
+                sx={{
+                  p: 3,
+                  height: 600,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  transform: "scale(1.01)",
+                  transition: "transform 0.3s ease",
+                  "&:hover": { transform: "scale(1.02)" },
+                }}
+              >
+                <AttendancePieChart attended={22} absent={8} />
+              </Paper>
+            </Grid>
 
-        {/* Right: System Health + Comment Tagger */}
-        <div
-          style={{
-            backgroundColor: "#FFFFFF",
-            borderRadius: "12px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-            padding: "16px",
-          }}
-        >
-          <SystemHealth {...system} />
-          <div style={{ marginTop: "16px" }}>
-            <CommentTagger photoId={recent.id} />
-          </div>
-        </div>
-      </main>
+            {/* Chart 3 – Avg Time per Student */}
+            <Grid item xs={12} md={3.9}>
+              <Paper sx={{ p: 3, height: 600 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Average Time per Student (min)
+                </Typography>
+                <Box
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <AvgTimeBarChart data={avgTimeData} />
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
 
-      {/* Footer */}
-      <footer
-        style={{
-          width: "100%",
-          backgroundColor: "#002D5B",
-          color: "#FFFFFF",
+          {/* ========================================================================
+              TABLE – Student Attendance Overview
+              ======================================================================== */}
+          <Grid item xs={12} sx={{ mt: 4 }}>
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Student Attendance Overview
+              </Typography>
+
+              {/* Table Header */}
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "2fr 1fr 1fr 1fr 2fr",
+                  gap: 2,
+                  py: 1,
+                  px: 1,
+                  fontWeight: 600,
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                }}
+              >
+                <Typography>Name</Typography>
+                <Typography>Student #</Typography>
+                <Typography>Status</Typography>
+                <Typography>Total Attendance</Typography>
+                <Typography>Avg Time (min)</Typography>
+              </Box>
+
+              {/* Table Rows */}
+              {logs.map((log) => (
+                <Box
+                  key={log.id}
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "2fr 1fr 1fr 1fr 2fr",
+                    gap: 2,
+                    alignItems: "center",
+                    py: 1.5,
+                    px: 1,
+                    borderBottom: "1px solid rgba(255,255,255,0.04)",
+                    "&:hover": { bgcolor: "rgba(255,255,255,0.02)" },
+                  }}
+                >
+                  <Typography>{log.name}</Typography>
+                  <Typography>{log.studentNumber}</Typography>
+                  <Typography
+                    color={
+                      log.status === "In Class" ? "success.main" : "error.main"
+                    }
+                  >
+                    {log.status}
+                  </Typography>
+                  <Typography>{log.totalAttendance}</Typography>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography sx={{ width: 30 }}>{log.avgTime}%</Typography>
+                    <LinearProgress
+                      variant="determinate"
+                      value={log.avgTime}
+                      sx={{
+                        flexGrow: 1,
+                        height: 6,
+                        borderRadius: 2,
+                        bgcolor: "rgba(255,255,255,0.08)",
+                      }}
+                    />
+                  </Box>
+                </Box>
+              ))}
+            </Paper>
+          </Grid>
+
+          {/* ========================================================================
+              LOWER ROW – Photo + System Health
+              ======================================================================== */}
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={6}>
+              <Paper sx={{ p: 3, height: "100%" }}>
+                <RecentPhoto name={recent.name} photoUrl={recent.photoUrl} />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Paper sx={{ p: 3, height: "100%" }}>
+                <SystemHealth {...system} />
+                <Box sx={{ mt: 2 }}>
+                  <CommentTagger photoId={recent.id} />
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+
+      {/* ---------------- FOOTER ---------------- */}
+      <Box
+        component="footer"
+        sx={{
           textAlign: "center",
-          padding: "12px 0",
+          py: 2,
+          bgcolor: "#0C1424",
+          color: "text.secondary",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
           fontSize: "0.9rem",
-          letterSpacing: "0.5px",
-          boxSizing: "border-box",
         }}
       >
         © 2025 NOVA – Smart Attendance and Monitoring System (Group 9)
-      </footer>
-    </div>
+      </Box>
+    </Box>
   );
 }

@@ -1,13 +1,44 @@
+<!-- ============================================================================
+     index.html – Root HTML Template for NOVA Dashboard (Vite React)
+     ----------------------------------------------------------------------------
+     Author: Eknoor Goraya (NOVA Team 9)
+     Project: NOVA – Smart Attendance and Monitoring System (NOVA-UI)
+     ----------------------------------------------------------------------------
+     Purpose:
+       • Acts as the root HTML entry point for the React + Vite web app.
+       • Loads the main React app (`main.jsx`) into the #root div.
+       • Defines metadata, viewport scaling, favicon, and document title.
+
+     Notes:
+       • This file is served by Vite during local development and bundled
+         for production deployment.
+       • The `<div id="root"></div>` element is where the React component tree
+         is mounted via `ReactDOM.createRoot(...)`.
+       • The favicon (`vite.svg`) can be replaced with the NOVA logo (e.g.,
+         `/src/assets/nova-logo.png`) for branding consistency.
+
+     Last Updated: October 2025
+     =========================================================================== -->
+
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ---------------------- Meta & Viewport Setup ---------------------- -->
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>nova-ui</title>
+
+    <!-- ---------------------- Favicon (Replace with NOVA Logo) ---------------------- -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- ---------------------- Page Title ---------------------- -->
+    <title>NOVA Dashboard</title>
   </head>
+
   <body>
+    <!-- React app mounts here -->
     <div id="root"></div>
+
+    <!-- Entry point script (handled by Vite) -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
