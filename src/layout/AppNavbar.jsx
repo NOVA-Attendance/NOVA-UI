@@ -38,7 +38,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 // ---------- Sidebar width constant for layout alignment ----------
 const drawerWidth = 240;
 
-export default function AppNavbar() {
+export default function AppNavbar({ currentPage }) {
   return (
     // ---------- Fixed App Bar aligned with sidebar ----------
     <AppBar
@@ -57,7 +57,7 @@ export default function AppNavbar() {
         <Typography variant="body2" color="text.secondary">
           Dashboard ›{" "}
           <Typography component="span" color="text.primary">
-            Home
+            {currentPage || "Home"}
           </Typography>
         </Typography>
 

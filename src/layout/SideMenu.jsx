@@ -35,18 +35,24 @@ import HomeIcon from "@mui/icons-material/Home";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleIcon from "@mui/icons-material/People";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import PersonIcon from "@mui/icons-material/Person";
 
 // ---------- Drawer width (synchronized with AppNavbar and AppLayout) ----------
 const drawerWidth = 240;
 
-export default function SideMenu() {
+export default function SideMenu({ currentPage, setCurrentPage }) {
   // ---------- Navigation menu items ----------
   const menuItems = [
     { text: "Home", icon: <HomeIcon /> },
+    { text: "User Management", icon: <PersonIcon /> },
     { text: "Analytics", icon: <BarChartIcon /> },
     { text: "Clients", icon: <PeopleIcon /> },
     { text: "Tasks", icon: <AssignmentIcon /> },
   ];
+
+  const handleMenuClick = (text) => {
+    setCurrentPage(text);
+  };
 
   return (
     // ---------- Persistent sidebar drawer ----------
@@ -78,7 +84,8 @@ export default function SideMenu() {
         {menuItems.map(({ text, icon }) => (
           <ListItemButton
             key={text}
-            selected={text === "Home"} // Default selected item
+            selected={currentPage === text}
+            onClick={() => handleMenuClick(text)}
             sx={{
               "&.Mui-selected": {
                 bgcolor: "rgba(38,198,218,0.15)", // Teal accent (NOVA theme)
