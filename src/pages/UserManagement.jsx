@@ -7,7 +7,7 @@
 // Purpose:
 //    Implements the user management interface for NOVA's Smart Attendance System.
 //    Allows administrators to add users, view users, and add comments about users.
-//    Connects to the backend API for all operations.
+//    Currently uses mock data only (no backend integrations).
 //
 // Description:
 //    • Displays a table of all users with their information
@@ -50,7 +50,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import CommentIcon from "@mui/icons-material/Comment";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { api } from "../services/api";
 import novaLogo from "../assets/nova-logo.png";
 
 export default function UserManagement() {
@@ -112,20 +111,11 @@ export default function UserManagement() {
     },
   ];
 
-  // ---------------- Fetch Users from API ----------------
-  const fetchUsers = async () => {
+  // ---------------- Initialize Mock Users ----------------
+  const initializeMockUsers = () => {
     setLoading(true);
-    try {
-      const response = await api.get("/api/users");
-      setUsers(response.data || []);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      setSnackbar({
-        open: true,
-        message: "Failed to load users. Using mock data for demonstration.",
-        severity: "warning",
-      });
-      // Fallback to mock data for demonstration
+    // Simulate network delay for realism
+    setTimeout(() => {
       setUsers([
         {
           id: 1,
@@ -155,14 +145,13 @@ export default function UserManagement() {
           comments: [],
         },
       ]);
-    } finally {
       setLoading(false);
-    }
+    }, 500);
   };
 
-  // ---------------- Load Users on Component Mount ----------------
+  // ---------------- Load Mock Users on Component Mount ----------------
   useEffect(() => {
-    fetchUsers();
+    initializeMockUsers();
   }, []);
 
   // ---------------- Handle Add User ----------------
@@ -178,45 +167,32 @@ export default function UserManagement() {
 
     setLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("name", newUser.name);
-      formData.append("studentNumber", newUser.studentNumber);
-      formData.append("email", newUser.email);
-      formData.append("rfidKey", newUser.rfidKey);
-      formData.append("notes", newUser.notes);
-      if (newUser.faceImage) {
-        formData.append("faceImage", newUser.faceImage);
-      }
-
-      await api.post("/api/users", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      setSnackbar({
-        open: true,
-        message: "User added successfully!",
-        severity: "success",
-      });
-      setOpenAddDialog(false);
-      setNewUser({
-        name: "",
-        studentNumber: "",
-        email: "",
-        rfidKey: "",
-        faceImage: null,
-        notes: "",
-      });
-      fetchUsers();
-    } catch (error) {
-      console.error("Error adding user:", error);
-      setSnackbar({
-        open: true,
-        message: "Failed to add user. Please try again.",
-        severity: "error",
-      });
-    } finally {
+      // Simulate a server delay
+      setTimeout(() => {
+        const nextId = users.length ? Math.max(...users.map((u) => u.id)) + 1 : 1;
+        const created = {
+          id: nextId,
+          name: newUser.name,
+          studentNumber: newUser.studentNumber,
+          email: newUser.email,
+          rfidKey: newUser.rfidKey,
+          hasFace: Boolean(newUser.faceImage),
+          comments: [],
+        };
+        setUsers((prev) => [created, ...prev]);
+        setSnackbar({ open: true, message: "User added successfully!", severity: "success" });
+        setOpenAddDialog(false);
+        setNewUser({
+          name: "",
+          studentNumber: "",
+          email: "",
+          rfidKey: "",
+          faceImage: null,
+          notes: "",
+        });
+        setLoading(false);
+      }, 400);
+    } catch (e) {
       setLoading(false);
     }
   };
@@ -234,27 +210,22 @@ export default function UserManagement() {
 
     setLoading(true);
     try {
-      await api.post(`/api/users/${selectedUser.id}/comments`, {
-        comment: comment.trim(),
-      });
-
-      setSnackbar({
-        open: true,
-        message: "Comment added successfully!",
-        severity: "success",
-      });
-      setOpenCommentDialog(false);
-      setComment("");
-      setSelectedUser(null);
-      fetchUsers();
-    } catch (error) {
-      console.error("Error adding comment:", error);
-      setSnackbar({
-        open: true,
-        message: "Failed to add comment. Please try again.",
-        severity: "error",
-      });
-    } finally {
+      // Simulate server delay and update in-memory state
+      setTimeout(() => {
+        setUsers((prev) =>
+          prev.map((u) =>
+            u.id === selectedUser.id
+              ? { ...u, comments: [...(u.comments || []), comment.trim()] }
+              : u
+          )
+        );
+        setSnackbar({ open: true, message: "Comment added successfully!", severity: "success" });
+        setOpenCommentDialog(false);
+        setComment("");
+        setSelectedUser(null);
+        setLoading(false);
+      }, 300);
+    } catch (e) {
       setLoading(false);
     }
   };
