@@ -27,15 +27,40 @@
 // Last Updated: October 2025
 // ============================================================================
 
+import { useMemo, useState } from "react";
 import AppTheme from "./theme/AppTheme.jsx";
 import AppLayout from "./layout/AppLayout.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import TapMonitor from "./pages/TapMonitor.jsx";
 
 export default function App() {
+  const pages = useMemo(
+    () => ({
+      dashboard: {
+        label: "Home",
+        Component: Dashboard,
+      },
+      tapMonitor: {
+        label: "Tap Monitor",
+        Component: TapMonitor,
+      },
+    }),
+    []
+  );
+
+  const [activePage, setActivePage] = useState("dashboard");
+
+  const ActiveComponent = pages[activePage]?.Component ?? Dashboard;
+  const activeLabel = pages[activePage]?.label ?? "Home";
+
   return (
     <AppTheme>
-      <AppLayout>
-        <Dashboard />
+      <AppLayout
+        activePage={activePage}
+        onPageChange={setActivePage}
+        activeLabel={activeLabel}
+      >
+        <ActiveComponent />
       </AppLayout>
     </AppTheme>
   );

@@ -68,30 +68,59 @@ import AttendancePieChart from "../components/AttendancePieChart";
 // ---------------- Asset Imports ----------------
 import novaLogo from "../assets/nova-logo.png";
 import denzelPhoto from "../assets/denzelPhoto.png";
+import farisPhoto from "../assets/farisPhoto.png";
+import chrisPhoto from "../assets/chrisPhoto.png";
+import eknoorPhoto from "../assets/eknoorPhoto.png";
+import mananPhoto from "../assets/mananPhoto.png";
+import rayanePhoto from "../assets/rayanePhoto.png";
 
 export default function Dashboard() {
   // ---------------- Mock Data (Temporary Backend Placeholder) ----------------
   const [logs] = useState([
     {
       id: 1,
+      name: "Christopher King",
+      studentNumber: "300226522",
+      status: "In Class",
+      totalAttendance: "14 / 15",
+      avgTime: 88,
+    },
+    {
+      id: 2,
       name: "Denzel Shaka",
-      studentNumber: "300187524",
+      studentNumber: "300185848",
       status: "In Class",
       totalAttendance: "12 / 15",
       avgTime: 82,
     },
     {
-      id: 2,
-      name: "Manan Dayalani",
-      studentNumber: "300205617",
-      status: "Left",
-      totalAttendance: "10 / 15",
-      avgTime: 74,
+      id: 3,
+      name: "Fareis Canoe",
+      studentNumber: "300299663",
+      status: "In Class",
+      totalAttendance: "13 / 15",
+      avgTime: 85,
     },
     {
-      id: 3,
+      id: 4,
+      name: "Manan Dayalani",
+      studentNumber: "300256144",
+      status: "In Class",
+      totalAttendance: "11 / 15",
+      avgTime: 76,
+    },
+    {
+      id: 5,
+      name: "Eknoor Goraya",
+      studentNumber: "300278785",
+      status: "In Class",
+      totalAttendance: "15 / 15",
+      avgTime: 92,
+    },
+    {
+      id: 6,
       name: "Rayane Chemsi",
-      studentNumber: "300216948",
+      studentNumber: "300324494",
       status: "In Class",
       totalAttendance: "14 / 15",
       avgTime: 90,
@@ -118,8 +147,11 @@ export default function Dashboard() {
   ];
 
   const avgTimeData = [
-    { name: "Denzel", avgTime: 78 },
-    { name: "Manan", avgTime: 65 },
+    { name: "Christopher", avgTime: 88 },
+    { name: "Denzel", avgTime: 82 },
+    { name: "Fareis", avgTime: 85 },
+    { name: "Manan", avgTime: 76 },
+    { name: "Eknoor", avgTime: 92 },
     { name: "Rayane", avgTime: 83 },
   ];
 

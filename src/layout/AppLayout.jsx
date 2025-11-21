@@ -28,15 +28,20 @@ import { Box, Toolbar } from "@mui/material";
 import SideMenu from "./SideMenu";
 import AppNavbar from "./AppNavbar";
 
-export default function AppLayout({ children }) {
+export default function AppLayout({
+  children,
+  activePage,
+  onPageChange,
+  activeLabel,
+}) {
   return (
     // ---------- Root flex container (Sidebar + Main content) ----------
     <Box sx={{ display: "flex" }}>
       {/* ---------- Persistent Left Navigation Menu ---------- */}
-      <SideMenu />
+      <SideMenu activePage={activePage} onPageChange={onPageChange} />
 
       {/* ---------- Top Navigation Bar ---------- */}
-      <AppNavbar />
+      <AppNavbar activeLabel={activeLabel} />
 
       {/* ---------- Main Content Section ---------- */}
       <Box
