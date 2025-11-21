@@ -28,22 +28,22 @@ import { Box, Toolbar } from "@mui/material";
 import SideMenu from "./SideMenu";
 import AppNavbar from "./AppNavbar";
 
-export default function AppLayout({ children }) {
+export default function AppLayout({ children, currentPage, setCurrentPage }) {
   return (
     // ---------- Root flex container (Sidebar + Main content) ----------
     <Box sx={{ display: "flex" }}>
       {/* ---------- Persistent Left Navigation Menu ---------- */}
-      <SideMenu />
+      <SideMenu currentPage={currentPage} setCurrentPage={setCurrentPage} />
 
       {/* ---------- Top Navigation Bar ---------- */}
-      <AppNavbar />
+      <AppNavbar currentPage={currentPage} />
 
       {/* ---------- Main Content Section ---------- */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,           // expands main content to fill remaining space
-          p: 3,                  // uniform padding
+          p: 0,                  // remove padding since pages handle their own
           ml: { sm: "240px" },   // offset to accommodate fixed sidebar width
         }}
       >
