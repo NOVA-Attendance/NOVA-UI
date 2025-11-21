@@ -33,18 +33,18 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import PeopleIcon from "@mui/icons-material/People";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
 // ---------- Drawer width (synchronized with AppNavbar and AppLayout) ----------
 const drawerWidth = 240;
 
-export default function SideMenu() {
+export default function SideMenu({ activePage, onPageChange }) {
   // ---------- Navigation menu items ----------
   const menuItems = [
-    { text: "Home", icon: <HomeIcon /> },
+    { text: "Home", icon: <HomeIcon />, value: "dashboard" },
+    { text: "Tap Monitor", icon: <QrCodeScannerIcon />, value: "tapMonitor" },
     { text: "Analytics", icon: <BarChartIcon /> },
-    { text: "Clients", icon: <PeopleIcon /> },
     { text: "Tasks", icon: <AssignmentIcon /> },
   ];
 
@@ -75,10 +75,15 @@ export default function SideMenu() {
 
       {/* ---------- Navigation Menu Items ---------- */}
       <List>
-        {menuItems.map(({ text, icon }) => (
+        {menuItems.map(({ text, icon, value }) => {
+          const isSelectable = Boolean(value);
+          const isSelected = value ? activePage === value : false;
+
+          return (
           <ListItemButton
             key={text}
-            selected={text === "Home"} // Default selected item
+              selected={isSelected}
+              disabled={!isSelectable}
             sx={{
               "&.Mui-selected": {
                 bgcolor: "rgba(38,198,218,0.15)", // Teal accent (NOVA theme)
@@ -86,6 +91,13 @@ export default function SideMenu() {
               },
               "&:hover": { bgcolor: "rgba(255,255,255,0.05)" },
             }}
+              onClick={
+                isSelectable
+                  ? () => {
+                      onPageChange(value);
+                    }
+                  : undefined
+              }
           >
             {/* ---------- Icon and Label for Each Menu Item ---------- */}
             <ListItemIcon sx={{ color: "text.secondary", minWidth: 40 }}>
@@ -99,7 +111,8 @@ export default function SideMenu() {
               }}
             />
           </ListItemButton>
-        ))}
+          );
+        })}
       </List>
     </Drawer>
   );
