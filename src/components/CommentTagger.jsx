@@ -3,26 +3,27 @@
 // --------------------------------------------------------------
 // Lets instructors or admins write a note for the most recent
 // scanned picture (e.g. "Absent today but entered late").
-// Currently uses mock saving (no backend integration).
+// Sends the data to the backend using a POST request.
 // --------------------------------------------------------------
 
 import { useState } from "react";
+import { api } from "../services/api";
 
 export default function CommentTagger({ photoId }) {
   // Local state variable to hold current comment text
   const [comment, setComment] = useState("");
 
-  // Function to save comment (mocked)
+  // Function to send comment to backend API
   const save = async () => {
     // Ignore empty strings
     if (!comment.trim()) return;
 
-    // Simulate async save
-    setTimeout(() => {
-      // Clear the textbox and show quick confirmation
-      setComment("");
-      alert("Saved (mock)");
-    }, 200);
+    // POST comment + associated photo ID to the backend
+    await api.post("/api/comments", { photoId, comment });
+
+    // Clear the textbox and show quick confirmation
+    setComment("");
+    alert("Saved");
   };
 
   return (
