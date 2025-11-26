@@ -36,46 +36,82 @@ import { Paper, Typography, Box } from "@mui/material";
 
 export default function AttendanceLineChart({ data }) {
   return (
-    // ---------- Outer container card ----------
-    <Paper sx={{ p: 2 }}>
-      {/* ---------- Section title ---------- */}
-      <Typography variant="h6" gutterBottom>
-        Attendance per Lecture
-      </Typography>
-
-      {/* ---------- Chart container ---------- */}
-      <Box sx={{ height: 250 }}>
-        {/* ResponsiveContainer ensures chart scales with screen size */}
+    <Box sx={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
+      {/* Chart container */}
+      <Box sx={{ flex: 1, minHeight: 0, width: "100%" }}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            {/* Subtle dark gridlines for visual clarity */}
-            <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
+          <LineChart 
+            data={data}
+            margin={{ top: 30, right: 25, left: 5, bottom: 90 }}
+          >
+            {/* Grid lines */}
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#334155" 
+              vertical={false}
+              horizontal={true}
+            />
 
-            {/* Axis labels + tick color aligned to NOVA theme */}
-            <XAxis dataKey="lecture" stroke="#94A3B8" />
-            <YAxis stroke="#94A3B8" />
-
-            {/* Hover tooltip for data inspection */}
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#1E293B",
-                border: "none",
-                borderRadius: 6,
-                color: "#E2E8F0",
+            {/* X-axis with lecture numbers - cleaner and more readable */}
+            <XAxis 
+              dataKey="lecture"
+              tick={{ fill: "#CBD5E1", fontSize: 12 }}
+              angle={-30}
+              textAnchor="end"
+              height={90}
+              interval={0}
+              stroke="#64748B"
+              tickLine={{ stroke: "#64748B" }}
+              padding={{ left: 5, right: 5 }}
+              label={{ 
+                value: "Lecture Number", 
+                position: "insideBottom", 
+                offset: -10,
+                style: { textAnchor: "middle", fill: "#94A3B8", fontSize: 12 }
               }}
             />
 
-            {/* Smooth teal line indicating attendance per lecture */}
+            {/* Y-axis with attendance count */}
+            <YAxis 
+              domain={[18, 26]}
+              tick={{ fill: "#CBD5E1", fontSize: 12 }}
+              width={45}
+              stroke="#64748B"
+              tickLine={{ stroke: "#64748B" }}
+              allowDecimals={false}
+              label={{ 
+                value: "Attendance Count", 
+                angle: -90, 
+                position: "insideLeft",
+                style: { textAnchor: "middle", fill: "#94A3B8", fontSize: 12 }
+              }}
+            />
+
+            {/* Tooltip */}
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#1E293B",
+                border: "1px solid #334155",
+                borderRadius: 6,
+                color: "#E2E8F0",
+                padding: "8px 12px",
+              }}
+              formatter={(value) => [`${value} students`, "Attendance"]}
+              labelFormatter={(label) => `Lecture ${label}`}
+            />
+
+            {/* Line with data points */}
             <Line
               type="monotone"
               dataKey="count"
-              stroke="#80DEEA"
+              stroke="#26C6DA"
               strokeWidth={2}
-              dot
+              dot={{ r: 4, fill: "#26C6DA", strokeWidth: 2, stroke: "#0B1220" }}
+              activeDot={{ r: 7, fill: "#26C6DA", stroke: "#0B1220", strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>
       </Box>
-    </Paper>
+    </Box>
   );
 }

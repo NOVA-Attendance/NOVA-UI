@@ -57,7 +57,7 @@ export default function AttendancePieChart({ attended, absent }) {
     >
       {/* ---------- Title ---------- */}
       <Typography variant="h6" gutterBottom align="center">
-        Lecture Attendance
+        Lecture Attendance Today
       </Typography>
 
       {/* ---------- Pie Chart Container (Perfectly Centered) ---------- */}

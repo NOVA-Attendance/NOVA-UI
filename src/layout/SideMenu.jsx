@@ -33,9 +33,8 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import PeopleIcon from "@mui/icons-material/People";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonIcon from "@mui/icons-material/Person";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 
 // ---------- Drawer width (synchronized with AppNavbar and AppLayout) ----------
 const drawerWidth = 240;
@@ -44,10 +43,9 @@ export default function SideMenu({ currentPage, setCurrentPage }) {
   // ---------- Navigation menu items ----------
   const menuItems = [
     { text: "Home", icon: <HomeIcon /> },
+    { text: "Tap Monitor", icon: <QrCodeScannerIcon /> },
     { text: "User Management", icon: <PersonIcon /> },
     { text: "Analytics", icon: <BarChartIcon /> },
-    { text: "Clients", icon: <PeopleIcon /> },
-    { text: "Tasks", icon: <AssignmentIcon /> },
   ];
 
   const handleMenuClick = (text) => {

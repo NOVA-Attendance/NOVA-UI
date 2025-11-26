@@ -16,7 +16,7 @@
 //
 // Notes for Developers:
 //    - Uses simple state-based navigation for multi-page support.
-//    - Current pages: Dashboard, UserManagement
+//    - Current pages: Dashboard, UserManagement, TapMonitor
 //    - Navigation is handled via AppLayout and SideMenu components.
 //
 // Example Usage:
@@ -29,8 +29,11 @@
 import { useState } from "react";
 import AppTheme from "./theme/AppTheme.jsx";
 import AppLayout from "./layout/AppLayout.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import Home from "./pages/Home.jsx";
+import Analytics from "./pages/Analytics.jsx";
 import UserManagement from "./pages/UserManagement.jsx";
+import TapMonitor from "./pages/TapMonitor.jsx";
+import { TapMonitorProvider } from "./context/TapMonitorContext.jsx";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("Home");
@@ -38,19 +41,25 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case "Home":
-        return <Dashboard />;
+        return <Home />;
+      case "Analytics":
+        return <Analytics />;
       case "User Management":
         return <UserManagement />;
+      case "Tap Monitor":
+        return <TapMonitor />;
       default:
-        return <Dashboard />;
+        return <Home />;
     }
   };
 
   return (
     <AppTheme>
-      <AppLayout currentPage={currentPage} setCurrentPage={setCurrentPage}>
-        {renderPage()}
-      </AppLayout>
+      <TapMonitorProvider>
+        <AppLayout currentPage={currentPage} setCurrentPage={setCurrentPage}>
+          {renderPage()}
+        </AppLayout>
+      </TapMonitorProvider>
     </AppTheme>
   );
 }

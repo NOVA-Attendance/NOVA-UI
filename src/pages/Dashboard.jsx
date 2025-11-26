@@ -64,63 +64,101 @@ import CommentTagger from "../components/CommentTagger";
 import AttendanceLineChart from "../components/AttendanceLineChart";
 import AvgTimeBarChart from "../components/AvgTimeBarChart";
 import AttendancePieChart from "../components/AttendancePieChart";
+import { useTapMonitor } from "../context/TapMonitorContext.jsx";
 
 // ---------------- Asset Imports ----------------
 import novaLogo from "../assets/nova-logo.png";
-import denzelPhoto from "../assets/denzelPhoto.png";
 
 export default function Dashboard() {
+  // Get most recent tap-in from shared context (auto-updates every 5 seconds)
+  const { mostRecent } = useTapMonitor();
+
   // ---------------- Mock Data (Temporary Backend Placeholder) ----------------
-  const [logs] = useState([
+  // All 6 team members with data aligned (15 lectures total)
+  const allLogs = [
     {
       id: 1,
+      name: "Christopher King",
+      studentNumber: "300226522",
+      status: "In Class",
+      totalAttendance: "14 / 15",
+      avgTime: 88,
+    },
+    {
+      id: 2,
       name: "Denzel Shaka",
-      studentNumber: "300187524",
+      studentNumber: "300185848",
       status: "In Class",
       totalAttendance: "12 / 15",
       avgTime: 82,
     },
     {
-      id: 2,
-      name: "Manan Dayalani",
-      studentNumber: "300205617",
-      status: "Left",
-      totalAttendance: "10 / 15",
-      avgTime: 74,
+      id: 3,
+      name: "Eknoor Goraya",
+      studentNumber: "300278785",
+      status: "In Class",
+      totalAttendance: "15 / 15",
+      avgTime: 92,
     },
     {
-      id: 3,
+      id: 4,
+      name: "Fareis Canoe",
+      studentNumber: "300299663",
+      status: "In Class",
+      totalAttendance: "13 / 15",
+      avgTime: 85,
+    },
+    {
+      id: 5,
+      name: "Manan Dayalani",
+      studentNumber: "300256144",
+      status: "Left",
+      totalAttendance: "11 / 15",
+      avgTime: 76,
+    },
+    {
+      id: 6,
       name: "Rayane Chemsi",
-      studentNumber: "300216948",
+      studentNumber: "300324494",
       status: "In Class",
       totalAttendance: "14 / 15",
       avgTime: 90,
     },
-  ]);
+  ];
+  
+  // Sort alphabetically by name
+  const [logs] = useState([...allLogs].sort((a, b) => a.name.localeCompare(b.name)));
 
-  const [recent] = useState({
+  // Use most recent from TapMonitor context (updates in real-time)
+  const recent = mostRecent ? {
+    id: mostRecent.id,
+    name: mostRecent.name,
+    photoUrl: mostRecent.photo,
+  } : {
     id: 101,
-    name: "Denzel Shaka",
-    photoUrl: denzelPhoto,
-  });
+    name: "No recent tap-ins",
+    photoUrl: null,
+  };
 
-  const [system] = useState({
-    temp: 34.8,
-    cpu: 41.2,
-    status: "ON",
-  });
+  // System health now uses real-time metrics
 
+  // Attendance data for last 5 lectures (11-15) - cleaner and more readable
   const attendanceData = [
-    { lecture: "Lec 1", count: 20 },
-    { lecture: "Lec 2", count: 22 },
-    { lecture: "Lec 3", count: 19 },
-    { lecture: "Lec 4", count: 25 },
+    { lecture: "11", count: 25 },
+    { lecture: "12", count: 24 },
+    { lecture: "13", count: 21 },
+    { lecture: "14", count: 23 },
+    { lecture: "15", count: 24 },
   ];
 
+  // Average time data matching the logs above (alphabetical order)
   const avgTimeData = [
-    { name: "Denzel", avgTime: 78 },
-    { name: "Manan", avgTime: 65 },
-    { name: "Rayane", avgTime: 83 },
+    { name: "Christopher", avgTime: 88 },
+    { name: "Denzel", avgTime: 82 },
+    { name: "Eknoor", avgTime: 92 },
+    { name: "Fareis", avgTime: 85 },
+    { name: "Manan", avgTime: 76 },
+    { name: "Rayane", avgTime: 90 },
   ];
 
   // ========================================================================
@@ -177,19 +215,18 @@ export default function Dashboard() {
           {/* ========================================================================
               TOP ROW – 3 CHARTS (Even spacing at 100% zoom)
               ======================================================================== */}
-          <Grid container spacing={3} justifyContent="space-between">
+          <Grid container spacing={3}>
             {/* Chart 1 – Attendance per Lecture */}
-            <Grid item xs={12} md={3.9}>
-              <Paper sx={{ p: 3, height: 600 }}>
-                <Typography variant="subtitle1" gutterBottom>
+            <Grid item xs={12} md={4}>
+              <Paper sx={{ p: 3, height: 850, display: "flex", flexDirection: "column" }}>
+                <Typography variant="subtitle1" gutterBottom sx={{ fontSize: "1.1rem", fontWeight: 600, mb: 2 }}>
                   Attendance per Lecture
                 </Typography>
                 <Box
                   sx={{
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    flex: 1,
+                    minHeight: 0,
+                    width: "100%",
                   }}
                 >
                   <AttendanceLineChart data={attendanceData} />
@@ -198,11 +235,11 @@ export default function Dashboard() {
             </Grid>
 
             {/* Chart 2 – Lecture Attendance (Pie) */}
-            <Grid item xs={12} md={3.9}>
+            <Grid item xs={12} md={4}>
               <Paper
                 sx={{
                   p: 3,
-                  height: 600,
+                  height: 850,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -212,22 +249,21 @@ export default function Dashboard() {
                   "&:hover": { transform: "scale(1.02)" },
                 }}
               >
-                <AttendancePieChart attended={22} absent={8} />
+                <AttendancePieChart attended={5} absent={1} />
               </Paper>
             </Grid>
 
             {/* Chart 3 – Avg Time per Student */}
-            <Grid item xs={12} md={3.9}>
-              <Paper sx={{ p: 3, height: 600 }}>
-                <Typography variant="subtitle1" gutterBottom>
+            <Grid item xs={12} md={4}>
+              <Paper sx={{ p: 3, height: 850, display: "flex", flexDirection: "column" }}>
+                <Typography variant="subtitle1" gutterBottom sx={{ fontSize: "1.1rem", fontWeight: 600, mb: 2 }}>
                   Average Time per Student (min)
                 </Typography>
                 <Box
                   sx={{
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    flex: 1,
+                    minHeight: 0,
+                    width: "100%",
                   }}
                 >
                   <AvgTimeBarChart data={avgTimeData} />
@@ -319,7 +355,7 @@ export default function Dashboard() {
 
             <Grid item xs={12} md={6}>
               <Paper sx={{ p: 3, height: "100%" }}>
-                <SystemHealth {...system} />
+                <SystemHealth />
                 <Box sx={{ mt: 2 }}>
                   <CommentTagger photoId={recent.id} />
                 </Box>
