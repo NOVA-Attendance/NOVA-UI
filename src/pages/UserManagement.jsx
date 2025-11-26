@@ -116,35 +116,70 @@ export default function UserManagement() {
     setLoading(true);
     // Simulate network delay for realism
     setTimeout(() => {
-      setUsers([
+      // All team members (will be sorted alphabetically)
+      const allUsers = [
         {
           id: 1,
-          name: "Denzel Shaka",
-          studentNumber: "300187524",
-          email: "denzel@example.com",
+          name: "Christopher King",
+          studentNumber: "300226522",
+          email: "cking028@uottawa.ca",
           rfidKey: "RFID-001",
           hasFace: true,
           comments: [],
         },
         {
           id: 2,
-          name: "Manan Dayalani",
-          studentNumber: "300205617",
-          email: "manan@example.com",
+          name: "Denzel Shaka",
+          studentNumber: "300185848",
+          email: "dshak053@uottawa.ca",
           rfidKey: "RFID-002",
           hasFace: true,
           comments: [],
         },
         {
           id: 3,
-          name: "Rayane Chemsi",
-          studentNumber: "300216948",
-          email: "rayane@example.com",
+          name: "Eknoor Goraya",
+          studentNumber: "300278785",
+          email: "egora090@uottawa.ca",
           rfidKey: "RFID-003",
-          hasFace: false,
+          hasFace: true,
           comments: [],
         },
-      ]);
+        {
+          id: 4,
+          name: "Fareis Canoe",
+          studentNumber: "300299663",
+          email: "fcano068@uottawa.ca",
+          rfidKey: "RFID-004",
+          hasFace: true,
+          comments: [],
+        },
+        {
+          id: 5,
+          name: "Manan Dayalani",
+          studentNumber: "300256144",
+          email: "mdaya049@uottawa.ca",
+          rfidKey: "RFID-005",
+          hasFace: true,
+          comments: [],
+        },
+        {
+          id: 6,
+          name: "Rayane Chemsi",
+          studentNumber: "300324494",
+          email: "rchem099@uottawa.ca",
+          rfidKey: "RFID-006",
+          hasFace: false, // No photo available
+          comments: [],
+        },
+      ];
+      
+      // Sort alphabetically by name
+      const sortedUsers = [...allUsers].sort((a, b) => 
+        a.name.localeCompare(b.name)
+      );
+      
+      setUsers(sortedUsers);
       setLoading(false);
     }, 500);
   };

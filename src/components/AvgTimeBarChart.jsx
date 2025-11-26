@@ -53,20 +53,32 @@ export default function AvgTimeBarChart({ data }) {
       </Typography>
 
       {/* ---------- Chart container ---------- */}
-      <Box sx={{ height: 300 }}>
+      <Box sx={{ height: 480, width: "100%" }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
-            margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
+            margin={{ top: 25, right: 35, left: 15, bottom: 90 }}
+            barCategoryGap="25%"
           >
             {/* Subtle background grid lines */}
             <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
 
-            {/* X-axis with student names */}
-            <XAxis dataKey="name" tick={{ fill: "#94A3B8" }} />
+            {/* X-axis with student names - improved spacing */}
+            <XAxis 
+              dataKey="name" 
+              tick={{ fill: "#94A3B8", fontSize: 13 }} 
+              interval={0}
+              angle={-45}
+              textAnchor="end"
+              height={90}
+            />
 
-            {/* Y-axis locked between 0 and 90 minutes */}
-            <YAxis domain={[0, 90]} tick={{ fill: "#94A3B8" }} />
+            {/* Y-axis locked between 0 and 100 minutes for better vertical spacing */}
+            <YAxis 
+              domain={[0, 100]} 
+              tick={{ fill: "#94A3B8" }}
+              width={50}
+            />
 
             {/* Tooltip styled for NOVA dark theme */}
             <Tooltip
@@ -78,12 +90,12 @@ export default function AvgTimeBarChart({ data }) {
               }}
             />
 
-            {/* Bars representing average attendance time */}
+            {/* Bars representing average attendance time - better spacing */}
             <Bar
               dataKey="avgTime"
               fill="#42A5F5"        // NOVA blue accent
               radius={[8, 8, 0, 0]} // Rounded top corners
-              barSize={50}          // Uniform bar width
+              barSize={45}          // Larger bars for better visibility
             />
           </BarChart>
         </ResponsiveContainer>
