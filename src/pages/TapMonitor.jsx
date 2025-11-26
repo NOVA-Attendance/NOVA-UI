@@ -63,7 +63,7 @@ export default function TapMonitor() {
         }}
       />
       <Container maxWidth={false} disableGutters>
-        <Box sx={{ px: { xs: 2, sm: 3 }, py: 4, bgcolor: "#0B1220" }}>
+        <Box sx={{ px: { xs: 2, sm: 4 }, py: 4, bgcolor: "#0B1220", maxWidth: "100%" }}>
           {/* Header */}
           <Box sx={{ mb: 3 }}>
             <Typography variant="h4" fontWeight={700} gutterBottom>
@@ -77,12 +77,12 @@ export default function TapMonitor() {
             </Typography>
           </Box>
 
-          <Grid container spacing={2.5} sx={{ height: "calc(100vh - 180px)", mb: 0 }}>
+          <Grid container spacing={3} sx={{ height: "calc(100vh - 160px)", mb: 0 }}>
             {/* Left Column - Recent Tap-In Display */}
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={6}>
               <Paper
                 sx={{
-                  p: 2.4, // 20% smaller (3 * 0.8)
+                  p: 4,
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
@@ -90,7 +90,7 @@ export default function TapMonitor() {
                   alignItems: "center",
                 }}
               >
-                <Typography variant="h6" gutterBottom sx={{ mb: 2.4, fontSize: "1rem" }}>
+                <Typography variant="h5" gutterBottom sx={{ mb: 3, fontSize: "1.25rem", fontWeight: 600 }}>
                   Most Recent Tap-In
                 </Typography>
                 {mostRecent && (
@@ -107,37 +107,38 @@ export default function TapMonitor() {
                     <Avatar
                       src={mostRecent.photo || undefined}
                       sx={{
-                        width: 180, // 20% smaller (225 * 0.8)
-                        height: 180, // 20% smaller (225 * 0.8)
-                        mb: 2.4, // 20% smaller (3 * 0.8)
-                        border: "2.4px solid", // 20% smaller (3 * 0.8)
+                        width: 400,
+                        height: 400,
+                        mb: 3,
+                        border: "4px solid",
                         borderColor: "primary.main",
-                        fontSize: mostRecent.photo ? "inherit" : "3.6rem", // 20% smaller (4.5rem * 0.8)
+                        fontSize: mostRecent.photo ? "inherit" : "7rem",
+                        boxShadow: "0 8px 32px rgba(38,198,218,0.3)",
                       }}
                     >
                       {mostRecent.photo ? null : mostRecent.name.split(" ").map(n => n[0]).join("")}
                     </Avatar>
-                    <Typography variant="h6" fontWeight={600} gutterBottom sx={{ fontSize: "1.25rem" }}>
+                    <Typography variant="h5" fontWeight={600} gutterBottom sx={{ fontSize: "1.75rem", mt: 2 }}>
                       {mostRecent.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 1.6, fontSize: "0.875rem" }}>
+                    <Typography variant="body1" color="text.secondary" gutterBottom sx={{ mb: 2, fontSize: "1rem" }}>
                       {mostRecent.studentNumber}
                     </Typography>
-                    <Stack direction="column" spacing={1.2} alignItems="center">
-                      <Stack direction="row" spacing={0.8} alignItems="center">
-                        <AccessTimeIcon fontSize="small" sx={{ fontSize: 16 }} color={(mostRecent.walkIn === "10:10 AM" || mostRecent.walkIn === "10:15 AM") ? "error" : "action"} />
-                        <Typography variant="body2" sx={{ fontSize: "0.875rem" }} color={(mostRecent.walkIn === "10:10 AM" || mostRecent.walkIn === "10:15 AM") ? "error.main" : "text.secondary"}>
+                    <Stack direction="column" spacing={1.5} alignItems="center" sx={{ mt: 1 }}>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <AccessTimeIcon fontSize="medium" color={(mostRecent.walkIn === "10:10 AM" || mostRecent.walkIn === "10:15 AM") ? "error" : "action"} />
+                        <Typography variant="body1" sx={{ fontSize: "1rem" }} color={(mostRecent.walkIn === "10:10 AM" || mostRecent.walkIn === "10:15 AM") ? "error.main" : "text.secondary"}>
                           Walk-in: {mostRecent.walkIn}
                         </Typography>
                       </Stack>
-                      <Stack direction="row" spacing={0.8} alignItems="center">
-                        <ExitToAppIcon fontSize="small" sx={{ fontSize: 16 }} color={mostRecent.walkOut === "10:45 AM" ? "error" : "action"} />
-                        <Typography variant="body2" sx={{ fontSize: "0.875rem" }} color={mostRecent.walkOut === "10:45 AM" ? "error.main" : "text.secondary"}>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <ExitToAppIcon fontSize="medium" color={mostRecent.walkOut === "10:45 AM" ? "error" : "action"} />
+                        <Typography variant="body1" sx={{ fontSize: "1rem" }} color={mostRecent.walkOut === "10:45 AM" ? "error.main" : "text.secondary"}>
                           Walk-out: {mostRecent.walkOut}
                         </Typography>
                       </Stack>
                       <Chip
-                        icon={<CheckCircleIcon sx={{ fontSize: 16 }} />}
+                        icon={<CheckCircleIcon />}
                         label={
                           mostRecent.walkOut === "10:45 AM" ? "Left Early" : 
                           (mostRecent.walkIn === "10:10 AM" || mostRecent.walkIn === "10:15 AM") ? "Late Arrival" : 
@@ -148,8 +149,8 @@ export default function TapMonitor() {
                           (mostRecent.walkIn === "10:10 AM" || mostRecent.walkIn === "10:15 AM") ? "error" : 
                           "success"
                         }
-                        size="small"
-                        sx={{ mt: 0.8, fontSize: "0.7rem" }}
+                        size="medium"
+                        sx={{ mt: 1, fontSize: "0.875rem", py: 0.5, px: 1 }}
                       />
                     </Stack>
                   </Box>
@@ -158,16 +159,16 @@ export default function TapMonitor() {
             </Grid>
 
             {/* Right Column - Tap-In Log */}
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={6}>
               <Paper
                 sx={{
-                  p: 2, // 20% smaller (2.5 * 0.8)
+                  p: 3,
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h6" gutterBottom sx={{ mb: 1.2, fontSize: "1rem" }}>
+                <Typography variant="h5" gutterBottom sx={{ mb: 2, fontSize: "1.25rem", fontWeight: 600 }}>
                   Recent Tap-Ins
                 </Typography>
                 <Box sx={{ flexGrow: 1, overflow: "auto" }}>
@@ -176,8 +177,8 @@ export default function TapMonitor() {
                       <Box key={log.id}>
                         <ListItem
                           sx={{
-                            py: 1.8, // 20% smaller (2.25 * 0.8)
-                            px: 1.2, // 20% smaller (1.5 * 0.8)
+                            py: 2,
+                            px: 2,
                             "&:hover": {
                               bgcolor: "rgba(255,255,255,0.05)",
                               borderRadius: 1,
@@ -188,10 +189,11 @@ export default function TapMonitor() {
                             <Avatar
                               src={log.photo || undefined}
                               sx={{
-                                width: 48, // 20% smaller (60 * 0.8)
-                                height: 48, // 20% smaller (60 * 0.8)
-                                border: "1.6px solid", // 20% smaller (2 * 0.8)
+                                width: 64,
+                                height: 64,
+                                border: "2px solid",
                                 borderColor: "primary.main",
+                                fontSize: "1.5rem",
                               }}
                             >
                               {log.photo ? null : log.name.split(" ").map(n => n[0]).join("")}
@@ -199,44 +201,44 @@ export default function TapMonitor() {
                           </ListItemAvatar>
                           <ListItemText
                             primary={
-                              <Typography variant="subtitle2" fontWeight={600} sx={{ fontSize: "0.9rem" }}>
+                              <Typography variant="subtitle1" fontWeight={600} sx={{ fontSize: "1rem" }}>
                                 {log.name}
                               </Typography>
                             }
                             secondary={
-                              <Stack direction="column" spacing={0.4} sx={{ mt: 0.6 }}>
-                                <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.75rem" }}>
+                              <Stack direction="column" spacing={0.5} sx={{ mt: 0.5 }}>
+                                <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.875rem" }}>
                                   {log.studentNumber}
                                 </Typography>
-                                <Stack direction="row" spacing={1.6} alignItems="center" sx={{ flexWrap: "wrap" }}>
-                                  <Stack direction="row" spacing={0.4} alignItems="center">
+                                <Stack direction="row" spacing={2} alignItems="center" sx={{ flexWrap: "wrap" }}>
+                                  <Stack direction="row" spacing={0.5} alignItems="center">
                                     <AccessTimeIcon 
                                       fontSize="small" 
                                       sx={{ 
-                                        fontSize: 11.2, // 20% smaller (14 * 0.8)
+                                        fontSize: 18,
                                         color: (log.walkIn === "10:10 AM" || log.walkIn === "10:15 AM") ? "#ef5350" : "inherit" 
                                       }} 
                                     />
                                     <Typography 
                                       variant="body2" 
                                       color={(log.walkIn === "10:10 AM" || log.walkIn === "10:15 AM") ? "error.main" : "text.secondary"}
-                                      sx={{ fontSize: "0.75rem" }}
+                                      sx={{ fontSize: "0.875rem" }}
                                     >
                                       In: {log.walkIn}
                                     </Typography>
                                   </Stack>
-                                  <Stack direction="row" spacing={0.4} alignItems="center">
+                                  <Stack direction="row" spacing={0.5} alignItems="center">
                                     <ExitToAppIcon 
                                       fontSize="small" 
                                       sx={{ 
-                                        fontSize: 11.2, // 20% smaller (14 * 0.8)
+                                        fontSize: 18,
                                         color: log.walkOut === "10:45 AM" ? "#ef5350" : "inherit" 
                                       }} 
                                     />
                                     <Typography 
                                       variant="body2" 
                                       color={log.walkOut === "10:45 AM" ? "error.main" : "text.secondary"}
-                                      sx={{ fontSize: "0.75rem" }}
+                                      sx={{ fontSize: "0.875rem" }}
                                     >
                                       Out: {log.walkOut}
                                     </Typography>
@@ -244,7 +246,7 @@ export default function TapMonitor() {
                                 </Stack>
                               </Stack>
                             }
-                            sx={{ ml: 1.2 }} // 20% smaller (1.5 * 0.8)
+                            sx={{ ml: 2 }}
                           />
                           <Box sx={{ ml: 1.2 }}>
                             {log.status === "success" ? (
